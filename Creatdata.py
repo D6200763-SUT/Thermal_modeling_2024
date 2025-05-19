@@ -1,19 +1,19 @@
 import pandas as pd
 
 # อ่านไฟล์ Excel
-file_path = '/Users/np_sut/project_python_github/Thermal_modeling_2024/Thermal_modeling.xlsx'
+file_path = '/Users/np_sut/project_python_github/Thermal_modeling_2024/Thermal_modeling.csv'
 
-# อ่านทั้งหมด sheet
-all_sheets = pd.read_excel(file_path, sheet_name=None)
-print("Sheets in workbook:", list(all_sheets.keys()))
+# อ่านข้อมูล
+df = pd.read_csv(file_path)
 
-# อ่าน sheet เฉพาะ
-df = pd.read_excel(file_path, sheet_name='Sheet1')
+# 1. กรองข้อมูล
+high_sales = df[df['Sales'] > 1000]
 
-# แสดงข้อมูล
-print("\nData in Sheet1:")
-print(df.head())  # แสดง 5 แถวแรก
+# 2. คำนวณยอดขายรวมตามภูมิภาค
+sales_by_region = df.groupby('Region')['Sales'].sum()
 
-# แสดงสถิติพื้นฐาน
-print("\nSummary statistics:")
-print(df.describe())
+# 3. บันทึกผลลัพธ์
+high_sales.to_csv('high_sales.csv', index=False)
+sales_by_region.to_csv('sales_by_region.csv')
+
+print("การประมวลผลข้อมูลเสร็จสิ้น")
